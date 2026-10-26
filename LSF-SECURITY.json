@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "lsf.github-action.security-fork.v1",
+  "upstreamRepository": "actions/upload-artifact",
+  "upstreamRevision": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+  "upstreamTag": "v7.0.2",
+  "runtime": "node24",
+  "nodeBuild": "24.19.0",
+  "dependencyOverrides": {
+    "brace-expansion@1": "1.1.21",
+    "brace-expansion@5": "5.0.12",
+    "fast-xml-builder@1": "1.3.1",
+    "fast-xml-parser@5": "5.11.2",
+    "lodash@4": "4.18.1",
+    "brace-expansion@2": "2.1.7",
+    "undici@6": "6.29.1"
+  },
+  "productionPackages": 153,
+  "osvFindingCount": 0,
+  "validation": {
+    "name": "upload-artifact",
+    "node": "v24.19.0",
+    "calls": [
+      {
+        "stage": "lock",
+        "status": 0,
+        "signal": null
+      },
+      {
+        "stage": "install",
+        "status": 0,
+        "signal": null
+      },
+      {
+        "stage": "types",
+        "status": 0,
+        "signal": null
+      },
+      {
+        "stage": "bundle",
+        "status": 0,
+        "signal": null
+      },
+      {
+        "stage": "test",
+        "status": 0,
+        "signal": null
+      }
+    ],
+    "status": 0
+  },
+  "upstreamTests": [
+    "Test Suites: 3 passed, 3 total",
+    "Tests:       31 passed, 31 total",
+    "Snapshots:   0 total",
+    "Time:        5.795 s"
+  ],
+  "bundles": {
+    "dist/merge/index.js": {
+      "bytes": 4774666,
+      "sha256": "c38f36ff15dab10ce9b22ef4d2e54fee013d1405b2fca446e88eabc6fd48f226"
+    },
+    "dist/merge/package.json": {
+      "bytes": 23,
+      "sha256": "3ca9d4afd21425087cf31893b8f9f63c81b0b8408db5e343ca76e5f8aa26ab9a"
+    },
+    "dist/upload/index.js": {
+      "bytes": 4677573,
+      "sha256": "cac9e31d70535db18b2b4c0f12143b0c0166ee2e49f719cf44936fb4815fc817"
+    },
+    "dist/upload/package.json": {
+      "bytes": 23,
+      "sha256": "3ca9d4afd21425087cf31893b8f9f63c81b0b8408db5e343ca76e5f8aa26ab9a"
+    }
+  }
+}
