@@ -1,0 +1,57 @@
+name: LSF upload security owner
+on:
+  push:
+    branches: [diag/upload-artifact-security-owner-20261105]
+permissions:
+  contents: read
+jobs:
+  qualify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: KirilsTurkins/lsf-checkout@4d310727149d3abacc52b5dcb0a1c4d18b345d13
+        with:
+          persist-credentials: false
+      - uses: KirilsTurkins/lsf-setup-node@34275fdec80b5be172c3327cadef76aa2f3b31c6
+        with:
+          node-version: 24.19.0
+      - name: Install exact lock
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Check repaired sources and bounded behavior
+        run: node --test .lsf-source/upload-source.test.mjs
+      - name: Run maintained action tests
+        run: npm test -- --runInBand
+      - name: Compile and rebuild committed bundles
+        run: |
+          npm run build
+          npm run release
+          git diff --exit-code -- dist/upload/index.js dist/merge/index.js
+      - name: Prepare real upload input and evidence
+        run: |
+          mkdir -p target/lsf-upload-owner/input target/lsf-upload-owner/evidence
+          printf 'upload source repair verified\n' > target/lsf-upload-owner/input/marker.txt
+          node .lsf-source/verify-upload-sources.mjs > target/lsf-upload-owner/evidence/installed.json
+          sha256sum package.json package-lock.json dist/upload/index.js dist/merge/index.js > target/lsf-upload-owner/evidence/files.sha256
+          git rev-parse HEAD > target/lsf-upload-owner/evidence/head.txt
+          node --version > target/lsf-upload-owner/evidence/node.txt
+          npm --version > target/lsf-upload-owner/evidence/npm.txt
+      - name: Upload actual artifact with candidate
+        uses: ./
+        with:
+          name: lsf-upload-owner-marker
+          path: target/lsf-upload-owner/input/marker.txt
+          if-no-files-found: error
+          retention-days: 7
+      - name: Download artifact and compare bytes
+        uses: KirilsTurkins/lsf-download-artifact@f073ba9e3801be93f933866d4c9a748e42157e5f
+        with:
+          name: lsf-upload-owner-marker
+          path: target/lsf-upload-owner/download
+      - run: cmp target/lsf-upload-owner/input/marker.txt target/lsf-upload-owner/download/marker.txt
+      - name: Preserve verification evidence
+        uses: ./
+        with:
+          name: lsf-upload-owner-evidence
+          path: target/lsf-upload-owner/evidence/
+          if-no-files-found: error
+          retention-days: 7
