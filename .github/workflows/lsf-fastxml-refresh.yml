@@ -7,7 +7,7 @@ permissions:
   contents: write
 jobs:
   refresh:
-    uses: KirilsTurkins/latent-service-fabric/.github/workflows/ts-action-security-worker.yml@aea62f938a856bdc1c0aae47dfc8ae3cc7cf98b1
+    uses: KirilsTurkins/latent-service-fabric/.github/workflows/ts-action-security-worker.yml@e650d205a7de5dc4e01a9df09ad57ce1b500d1d7
     with:
       role: upload-artifact
       base: d74a697ce553b389f4219545e07c97fb8542c64f
